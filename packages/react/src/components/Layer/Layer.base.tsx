@@ -10,7 +10,7 @@ import {
   createDefaultLayerHost,
 } from './Layer.notification';
 import { useIsomorphicLayoutEffect, useMergedRefs, useWarnings } from '@fluentui/react-hooks';
-import { useDocument } from '../../WindowProvider';
+import { useDocument, useShadowRoot } from '../../WindowProvider';
 import type { ILayerProps, ILayerStyleProps, ILayerStyles } from './Layer.types';
 
 const getClassNames = classNamesFunction<ILayerStyleProps, ILayerStyles>();
@@ -26,6 +26,11 @@ export const LayerBase: React.FunctionComponent<ILayerProps> = React.forwardRef<
     const [needRaiseLayerMount, setNeedRaiseLayerMount] = React.useState(false);
 
     const doc = useDocument();
+    const shadowRoot = useShadowRoot();
+
+    const getElementById = (id: string) => (shadowRoot ? shadowRoot.getElementById(id) : doc?.getElementById(id));
+    const querySelector = (selector: string) =>
+      shadowRoot ? shadowRoot.querySelector(selector) : doc?.querySelector(selector);
 
     const {
       eventBubblingEnabled,
@@ -57,17 +62,17 @@ export const LayerBase: React.FunctionComponent<ILayerProps> = React.forwardRef<
           return layerHost.rootRef.current ?? null;
         }
 
-        return doc?.getElementById(hostId) ?? null;
+        return getElementById(hostId) ?? null;
       } else {
         const defaultHostSelector = getDefaultTarget();
 
         // Find the host.
-        let host: Node | null = defaultHostSelector ? (doc?.querySelector(defaultHostSelector) as Node) : null;
+        let host: Node | null = defaultHostSelector ? (querySelector(defaultHostSelector) as Node) : null;
 
         // If no host is available, create a container for injecting layers in.
         // Having a container scopes layout computation.
         if (!host && doc) {
-          host = createDefaultLayerHost(doc);
+          host = createDefaultLayerHost(doc, shadowRoot);
         }
 
         return host;

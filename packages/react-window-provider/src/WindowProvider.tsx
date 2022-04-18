@@ -8,6 +8,11 @@ export type WindowProviderProps = {
    * Provide the active window.
    */
   window: Window | undefined;
+
+  /**
+   * Provide the shadow root
+   */
+  shadowRoot?: ShadowRoot;
 };
 
 /**
@@ -15,6 +20,7 @@ export type WindowProviderProps = {
  */
 export const WindowContext = React.createContext<WindowProviderProps>({
   window: typeof window === 'object' ? window : undefined,
+  shadowRoot: undefined,
 });
 
 /**
@@ -26,6 +32,11 @@ export const useWindow = (): Window | undefined => React.useContext(WindowContex
  * Hook to access the document object. This can be overridden contextually using the `WindowProvider`.
  */
 export const useDocument = (): Document | undefined => React.useContext(WindowContext).window?.document;
+
+/**
+ * Hook to access the shadow root object. This can be overridden contextually using the `WindowProvider`.
+ */
+export const useShadowRoot = (): ShadowRoot | undefined => React.useContext(WindowContext).shadowRoot;
 
 /**
  * Component to provide the window object contextually. This is useful when rendering content to an element
