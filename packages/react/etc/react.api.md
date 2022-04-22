@@ -369,6 +369,7 @@ import { unregisterIcons } from '@fluentui/style-utilities';
 import { useCustomizationSettings } from '@fluentui/utilities';
 import { useDocument } from '@fluentui/react-window-provider';
 import { useFocusRects } from '@fluentui/utilities';
+import { useShadowRoot } from '@fluentui/react-window-provider';
 import { useWindow } from '@fluentui/react-window-provider';
 import { values } from '@fluentui/utilities';
 import { videoProperties } from '@fluentui/utilities';
@@ -942,7 +943,7 @@ export function clamp(value: number, max: number, min?: number): number;
 export { classNamesFunction }
 
 // @public
-export function cleanupDefaultLayerHost(doc: Document): void;
+export function cleanupDefaultLayerHost(doc: Document, shadowRoot: ShadowRoot | undefined): void;
 
 // @public (undocumented)
 export const Coachmark: React_2.FunctionComponent<ICoachmarkProps>;
@@ -1122,7 +1123,7 @@ export function correctRGB(color: IRGB): IRGB;
 export { createArray }
 
 // @public
-export function createDefaultLayerHost(doc: Document): Node | null;
+export function createDefaultLayerHost(doc: Document, shadowRoot: ShadowRoot | undefined): Node | null;
 
 export { createFontStyles }
 
@@ -11085,6 +11086,8 @@ export function useKeytipRef<TElement extends HTMLElement = HTMLElement>(options
 
 // @public
 export const useResponsiveMode: (elementRef: React_2.RefObject<HTMLElement | null>, overrideResponsiveMode?: ResponsiveMode | undefined) => ResponsiveMode;
+
+export { useShadowRoot }
 
 // @public @deprecated
 export type UseStylesOptions = {

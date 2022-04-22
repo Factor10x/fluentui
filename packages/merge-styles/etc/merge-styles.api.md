@@ -453,6 +453,7 @@ export interface IStyleSheetConfig {
     // @deprecated
     onInsertRule?: (rule: string) => void;
     rtl?: boolean;
+    shadowRoot?: DocumentFragment;
 }
 
 // @public

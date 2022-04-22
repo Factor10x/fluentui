@@ -10,6 +10,9 @@ import * as React_2 from 'react';
 export const useDocument: () => Document | undefined;
 
 // @public
+export const useShadowRoot: () => ShadowRoot | undefined;
+
+// @public
 export const useWindow: () => Window | undefined;
 
 // @public
@@ -21,8 +24,8 @@ export const WindowProvider: React_2.FunctionComponent<WindowProviderProps>;
 // @public
 export type WindowProviderProps = {
     window: Window | undefined;
+    shadowRoot?: ShadowRoot;
 };
-
 
 // (No @packageDocumentation comment for this package)
 

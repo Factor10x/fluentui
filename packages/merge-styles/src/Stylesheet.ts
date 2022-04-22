@@ -74,6 +74,11 @@ export interface IStyleSheetConfig {
    * Initial value for classnames cache. Key is serialized css rules associated with a classname.
    */
   classNameCache?: { [key: string]: string };
+
+  /**
+   * Shadow root
+   */
+  shadowRoot?: DocumentFragment;
 }
 
 /**
@@ -121,6 +126,8 @@ let _stylesheet: Stylesheet | undefined;
 export class Stylesheet {
   private _lastStyleElement?: HTMLStyleElement;
   private _styleElement?: HTMLStyleElement;
+  private _lastShadowStyleElement?: HTMLStyleElement;
+  private _shadowStyleElement?: HTMLStyleElement;
   private _rules: string[] = [];
   private _preservedRules: string[] = [];
   private _config: IStyleSheetConfig;
@@ -281,7 +288,12 @@ export class Stylesheet {
    */
   public insertRule(rule: string, preserve?: boolean): void {
     const { injectionMode } = this._config;
-    const element = injectionMode !== InjectionMode.none ? this._getStyleElement() : undefined;
+    const element =
+      injectionMode !== InjectionMode.none
+        ? this._config.shadowRoot && rule.lastIndexOf('@font-face', 0) !== 0
+          ? this._getShadowStyleElement()
+          : this._getStyleElement()
+        : undefined;
 
     if (preserve) {
       this._preservedRules.push(rule);
@@ -345,7 +357,7 @@ export class Stylesheet {
   }
 
   private _getStyleElement(): HTMLStyleElement | undefined {
-    if (!this._styleElement && typeof document !== 'undefined') {
+    if (!this._styleElement && typeof document !== 'undefined' && document.head) {
       this._styleElement = this._createStyleElement();
 
       if (!REUSE_STYLE_NODE) {
@@ -358,8 +370,25 @@ export class Stylesheet {
     return this._styleElement;
   }
 
-  private _createStyleElement(): HTMLStyleElement {
-    const head: HTMLHeadElement = document.head;
+  private _getShadowStyleElement(): HTMLStyleElement | undefined {
+    if (!this._shadowStyleElement && typeof document !== 'undefined') {
+      this._shadowStyleElement = this._createShadowStyleElement();
+    }
+
+    if (!REUSE_STYLE_NODE) {
+      // Reset the style element on the next frame.
+      window.requestAnimationFrame(() => {
+        this._shadowStyleElement = undefined;
+      });
+    }
+
+    return this._shadowStyleElement;
+  }
+
+  private _createStyleElementFromParentNode(
+    parentNode: Node & ParentNode,
+    lastStyleElement: HTMLStyleElement | undefined,
+  ): HTMLStyleElement {
     const styleElement = document.createElement('style');
     let nodeToInsertBefore: Node | null = null;
 
@@ -371,31 +400,45 @@ export class Stylesheet {
         styleElement.setAttribute('nonce', cspSettings.nonce);
       }
     }
-    if (this._lastStyleElement) {
+    if (lastStyleElement) {
       // If the `nextElementSibling` is null, then the insertBefore will act as a regular append.
       // https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore#Syntax
-      nodeToInsertBefore = this._lastStyleElement.nextElementSibling;
+      nodeToInsertBefore = lastStyleElement.nextElementSibling;
     } else {
-      const placeholderStyleTag: Element | null = this._findPlaceholderStyleTag();
+      const placeholderStyleTag: Element | null = this._findPlaceholderStyleTag(parentNode);
 
       if (placeholderStyleTag) {
         nodeToInsertBefore = placeholderStyleTag.nextElementSibling;
       } else {
-        nodeToInsertBefore = head.childNodes[0];
+        nodeToInsertBefore = parentNode.childNodes[0];
       }
     }
 
-    head!.insertBefore(styleElement, head!.contains(nodeToInsertBefore) ? nodeToInsertBefore : null);
+    parentNode.insertBefore(styleElement, parentNode.contains(nodeToInsertBefore) ? nodeToInsertBefore : null);
+
+    return styleElement;
+  }
+
+  private _createStyleElement(): HTMLStyleElement {
+    const head: HTMLHeadElement = document.head;
+    const styleElement = this._createStyleElementFromParentNode(head, this._lastStyleElement);
     this._lastStyleElement = styleElement;
 
     return styleElement;
   }
 
-  private _findPlaceholderStyleTag(): Element | null {
-    const head: HTMLHeadElement = document.head;
-    if (head) {
-      return head.querySelector('style[data-merge-styles]');
+  private _createShadowStyleElement(): HTMLStyleElement {
+    const styleElement = this._createStyleElementFromParentNode(this._config.shadowRoot!, this._lastShadowStyleElement);
+    this._lastShadowStyleElement = styleElement;
+
+    return styleElement;
+  }
+
+  private _findPlaceholderStyleTag(parentNode: (Node & ParentNode) | undefined): Element | null {
+    if (parentNode) {
+      return parentNode.querySelector('style[data-merge-styles]');
     }
+
     return null;
   }
 }

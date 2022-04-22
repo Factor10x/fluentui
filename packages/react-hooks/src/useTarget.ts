@@ -1,6 +1,6 @@
 import { getDocument, Rectangle } from '@fluentui/utilities';
 import * as React from 'react';
-import { useWindow } from '@fluentui/react-window-provider';
+import { useWindow, useShadowRoot } from '@fluentui/react-window-provider';
 import type { Point } from '@fluentui/utilities';
 
 export type Target = Element | string | MouseEvent | Point | Rectangle | null | React.RefObject<Element>;
@@ -26,6 +26,7 @@ export function useTarget<TElement extends HTMLElement = HTMLElement>(
    * for server side rendering and if focus was lost.
    */
   const targetWindow = useWindow();
+  const shadowRoot = useShadowRoot();
 
   // If the target element changed, find the new one. If we are tracking
   // target with class name, always find element because we do not know if
@@ -35,7 +36,11 @@ export function useTarget<TElement extends HTMLElement = HTMLElement>(
     if (target) {
       if (typeof target === 'string') {
         const currentDoc: Document = getDocument(currentElement)!;
-        targetRef.current = currentDoc ? currentDoc.querySelector(target) : null;
+        if (shadowRoot && shadowRoot?.ownerDocument === currentDoc) {
+          targetRef.current = shadowRoot.querySelector(target);
+        } else {
+          targetRef.current = currentDoc ? currentDoc.querySelector(target) : null;
+        }
       } else if ('stopPropagation' in target) {
         targetRef.current = target;
       } else if ('getBoundingClientRect' in target) {
