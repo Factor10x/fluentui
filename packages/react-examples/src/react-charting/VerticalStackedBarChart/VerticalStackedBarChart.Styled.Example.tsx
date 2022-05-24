@@ -101,47 +101,57 @@ export class VerticalStackedBarChartStyledExample extends React.Component<{}, IV
     return (
       <>
         <div>
-          <label>Width:</label>
+          <label htmlFor="ChangeWidth_Styled">Width:</label>
           <input
             type="range"
             value={this.state.width}
             min={200}
             max={1000}
+            id="ChangeWidth_Styled"
             onChange={e => this.setState({ width: +e.target.value })}
+            aria-valuetext={`ChangeWidthSlider${this.state.width}`}
           />
-          <label>Height:</label>
+          <label htmlFor="changeHeight_Styled">Height:</label>
           <input
             type="range"
             value={this.state.height}
             min={200}
             max={1000}
+            id="changeHeight_Styled"
             onChange={e => this.setState({ height: +e.target.value })}
+            aria-valuetext={`ChangeHeightslider${this.state.height}`}
           />
         </div>
         <div>
-          <label>BarGapMax:</label>
+          <label htmlFor="changeBarGapMax_Styled">BarGapMax:</label>
           <input
             type="range"
             value={this.state.barGapMax}
             min={0}
             max={10}
+            id="changeBarGapMax_Styled"
             onChange={e => this.setState({ barGapMax: +e.target.value })}
+            aria-valuetext={`ChangebarGapMaxslider${this.state.barGapMax}`}
           />
-          <label>BarCornerRadius:</label>
+          <label htmlFor="ChangeBarCornerRadius_condition">BarCornerRadius:</label>
           <input
             type="range"
             value={this.state.barCornerRadius}
             min={0}
             max={10}
+            id="ChangeBarCornerRadius_condition"
             onChange={e => this.setState({ barCornerRadius: +e.target.value })}
+            aria-valuetext={`ChangeBarCornerRadiusSlider${this.state.barCornerRadius}`}
           />
-          <label>BarMinimumHeight:</label>
+          <label htmlFor="ChangeBarMinimumHeight_condition">BarMinimumHeight:</label>
           <input
             type="range"
             value={this.state.barMinimumHeight}
             min={0}
             max={10}
+            id="ChangeBarMinimumHeight_condition"
             onChange={e => this.setState({ barMinimumHeight: +e.target.value })}
+            aria-valuetext={`ChangebarBarMinimumHeightslider${this.state.barMinimumHeight}`}
           />
           <ChoiceGroup
             options={options}
