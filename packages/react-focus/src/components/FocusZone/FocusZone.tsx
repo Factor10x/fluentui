@@ -24,6 +24,7 @@ import {
   getWindow,
   findScrollableParent,
   createMergedRef,
+  getActiveElement,
 } from '@fluentui/utilities';
 import { mergeStyles } from '@fluentui/merge-styles';
 import { getTheme } from '@fluentui/style-utilities';
@@ -242,12 +243,13 @@ export class FocusZone extends React.Component<IFocusZoneProps> implements IFocu
   public componentDidUpdate(): void {
     const { current: root } = this._root;
     const doc = this._getDocument();
+    const activeElement = getActiveElement(doc);
 
     if (
       !this.props.preventFocusRestoration &&
       doc &&
       this._lastIndexPath &&
-      (doc.activeElement === doc.body || doc.activeElement === null || doc.activeElement === root)
+      (activeElement === doc.body || activeElement === null || activeElement === root)
     ) {
       // The element has been removed after the render, attempt to restore focus.
       const elementToFocus = getFocusableByIndexPath(root as HTMLElement, this._lastIndexPath);
@@ -426,7 +428,7 @@ export class FocusZone extends React.Component<IFocusZoneProps> implements IFocu
 
     const doc = this._getDocument();
     if (doc) {
-      const focusedElement = doc.activeElement as HTMLElement;
+      const focusedElement = getActiveElement(doc) as HTMLElement;
 
       // Only update the index path if we are not parked on the root.
       if (focusedElement !== root) {

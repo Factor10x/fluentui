@@ -97,6 +97,7 @@ import { FontSizes } from '@fluentui/style-utilities';
 import { FontWeights } from '@fluentui/style-utilities';
 import { format } from '@fluentui/utilities';
 import { formProperties } from '@fluentui/utilities';
+import { getActiveElement } from '@fluentui/utilities';
 import { getChildren } from '@fluentui/utilities';
 import { getDatePartHashValue } from '@fluentui/date-time-utilities';
 import { getDateRangeArray } from '@fluentui/date-time-utilities';
@@ -133,6 +134,7 @@ import { getPreviousElement } from '@fluentui/utilities';
 import { getPropsWithDefaults } from '@fluentui/utilities';
 import { getRect } from '@fluentui/utilities';
 import { getResourceUrl } from '@fluentui/utilities';
+import { getRootNode } from '@fluentui/utilities';
 import { getRTL } from '@fluentui/utilities';
 import { getRTLSafeKeyCode } from '@fluentui/utilities';
 import { getScreenSelector } from '@fluentui/style-utilities';
@@ -1680,6 +1682,8 @@ export { format }
 
 export { formProperties }
 
+export { getActiveElement }
+
 // @public (undocumented)
 export function getAllSelectedOptions(options: ISelectableOption[], selectedIndices: number[]): ISelectableOption[];
 
@@ -1839,6 +1843,8 @@ export { getResourceUrl }
 
 // @public
 export function getResponsiveMode(currentWindow: Window | undefined): ResponsiveMode;
+
+export { getRootNode }
 
 export { getRTL }
 

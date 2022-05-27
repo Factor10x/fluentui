@@ -11,6 +11,8 @@ import {
   portalContainsElement,
   classNamesFunction,
   KeyCodes,
+  getActiveElement,
+  getRootNode,
 } from '../../Utilities';
 import { TooltipOverflowMode } from './TooltipHost.types';
 import { Tooltip } from './Tooltip';
@@ -180,7 +182,7 @@ export class TooltipHostBase extends React.Component<ITooltipHostProps, ITooltip
     // checking if the blurred element is still the document's activeElement,
     // and ignoring when it next gets focus back.
     // See https://github.com/microsoft/fluentui/issues/13541
-    this._ignoreNextFocusEvent = document?.activeElement === ev.target;
+    this._ignoreNextFocusEvent = getActiveElement(getRootNode(ev.target as HTMLElement)) === ev.target;
 
     this._hideTooltip();
   };

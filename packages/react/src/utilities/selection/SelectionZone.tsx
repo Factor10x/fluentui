@@ -15,6 +15,7 @@ import {
 } from '../../Utilities';
 import { SelectionMode } from './interfaces';
 import type { ISelection, IObjectWithKey } from './interfaces';
+import { getActiveElement, getRootNode } from '@fluentui/utilities';
 
 // Selection definitions:
 //
@@ -253,8 +254,9 @@ export class SelectionZone extends React.Component<ISelectionZoneProps, ISelecti
 
   private _onMouseDownCapture = (ev: React.MouseEvent<HTMLElement>): void => {
     let target = ev.target as HTMLElement;
+    const activeElement = getActiveElement(getRootNode(target));
 
-    if (document.activeElement !== target && !elementContains(document.activeElement as HTMLElement, target)) {
+    if (activeElement !== target && !elementContains(activeElement as HTMLElement, target)) {
       this.ignoreNextFocus();
       return;
     }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { classNamesFunction, KeyCodes } from '../../Utilities';
+import { classNamesFunction, KeyCodes, getActiveElement, getRootNode } from '../../Utilities';
 import { ButtonGrid } from '../../utilities/ButtonGrid/ButtonGrid';
 import { ColorPickerGridCell } from './ColorPickerGridCell';
 import { useId, useConst, useSetTimeout, useControllableValue, useWarnings } from '@fluentui/react-hooks';
@@ -160,7 +160,10 @@ export const SwatchColorPickerBase: React.FunctionComponent<ISwatchColorPickerPr
       const targetElement = ev.currentTarget as HTMLElement;
 
       // If navigation is idle and the targetElement is the focused element bail out
-      if (internalState.isNavigationIdle && !(document && targetElement === (document.activeElement as HTMLElement))) {
+      if (
+        internalState.isNavigationIdle &&
+        !(document && targetElement === getActiveElement(getRootNode(targetElement)))
+      ) {
         targetElement.focus();
       }
 

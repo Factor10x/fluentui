@@ -5,10 +5,12 @@ import {
   css,
   elementContains,
   format,
+  getActiveElement,
   getId,
   classNamesFunction,
   styled,
   initializeComponentRef,
+  getRootNode,
 } from '../../Utilities';
 import { Callout } from '../../Callout';
 import { Selection, SelectionZone, SelectionMode } from '../../utilities/selection/index';
@@ -485,7 +487,9 @@ export class BasePicker<T, P extends IBasePickerProps<T>>
         });
       } else {
         this.setState({
-          suggestionsVisible: this.input.current! && this.input.current!.inputElement === document.activeElement,
+          suggestionsVisible:
+            this.input.current! &&
+            this.input.current!.inputElement === getActiveElement(getRootNode(this.input.current!.inputElement)),
         });
       }
 
@@ -579,7 +583,7 @@ export class BasePicker<T, P extends IBasePickerProps<T>>
         // even when it's not. Using document.activeElement is another way
         // for us to be able to get what the relatedTarget without relying
         // on the event
-        relatedTarget = document.activeElement;
+        relatedTarget = getActiveElement();
       }
       if (relatedTarget && !elementContains(this.root.current!, relatedTarget as HTMLElement)) {
         this.setState({ isFocused: false });
@@ -985,7 +989,7 @@ export class BasePicker<T, P extends IBasePickerProps<T>>
     const areSuggestionsVisible =
       this.input.current !== undefined &&
       this.input.current !== null &&
-      this.input.current.inputElement === document.activeElement &&
+      this.input.current.inputElement === getActiveElement(getRootNode(this.input.current.inputElement)) &&
       this.input.current.value !== '';
 
     return areSuggestionsVisible;

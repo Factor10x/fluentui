@@ -68,6 +68,7 @@ export {
   getChildren,
   getDistanceBetweenPoints,
   getDocument,
+  getActiveElement,
   getElementIndexPath,
   getFirstFocusable,
   getFirstTabbable,
@@ -89,6 +90,7 @@ export {
   getRect,
   // eslint-disable-next-line deprecation/deprecation
   getResourceUrl,
+  getRootNode,
   getScrollbarWidth,
   getVirtualParent,
   getWindow,

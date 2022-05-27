@@ -10,6 +10,7 @@ import {
   assign,
   classNamesFunction,
   css,
+  getActiveElement,
   getFirstFocusable,
   getLastFocusable,
   getRTL,
@@ -253,6 +254,7 @@ function useShouldUpdateFocusOnMouseMove({ delayUpdateFocusOnHover, hidden }: IC
 
 function usePreviousActiveElement({ hidden, onRestoreFocus }: IContextualMenuProps, targetWindow: Window | undefined) {
   const previousActiveElement = React.useRef<undefined | HTMLElement>();
+  const activeElement = targetWindow ? (getActiveElement(targetWindow?.document) as HTMLElement) : undefined;
 
   const tryFocusPreviousActiveElement = React.useCallback(
     (options: IPopupRestoreFocusParams) => {
@@ -270,7 +272,7 @@ function usePreviousActiveElement({ hidden, onRestoreFocus }: IContextualMenuPro
 
   useIsomorphicLayoutEffect(() => {
     if (!hidden) {
-      previousActiveElement.current = targetWindow?.document.activeElement as HTMLElement;
+      previousActiveElement.current = activeElement;
     } else if (previousActiveElement.current) {
       tryFocusPreviousActiveElement({
         originalElement: previousActiveElement.current,
@@ -280,7 +282,7 @@ function usePreviousActiveElement({ hidden, onRestoreFocus }: IContextualMenuPro
 
       previousActiveElement.current = undefined;
     }
-  }, [hidden, targetWindow?.document.activeElement, tryFocusPreviousActiveElement]);
+  }, [hidden, activeElement, tryFocusPreviousActiveElement]);
 
   return [tryFocusPreviousActiveElement] as const;
 }
@@ -540,7 +542,7 @@ function useMouseHandlers(
     if (
       !isScrollIdle.current ||
       subMenuEntryTimer.current !== undefined ||
-      targetElement === (targetWindow?.document.activeElement as HTMLElement)
+      targetElement === (targetWindow ? getActiveElement(targetWindow?.document) : undefined)
     ) {
       return;
     }

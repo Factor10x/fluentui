@@ -304,6 +304,9 @@ export function format(s: string, ...values: any[]): string;
 // @public
 export const formProperties: Record<string, number>;
 
+// @public (undocumented)
+export function getActiveElement(document?: Document | ShadowRoot): Element | null;
+
 export { getChildren }
 
 // @public
@@ -364,6 +367,9 @@ export function getRect(element: HTMLElement | Window | null): IRectangle | unde
 
 // @public @deprecated (undocumented)
 export function getResourceUrl(url: string): string;
+
+// @public (undocumented)
+export function getRootNode(rootElement?: HTMLElement | null): Document | ShadowRoot;
 
 // @public
 export function getRTL(theme?: {

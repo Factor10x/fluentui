@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { KeyCodes, css, initializeComponentRef } from '../../Utilities';
+import { KeyCodes, css, initializeComponentRef, getActiveElement } from '../../Utilities';
 import { Autofill } from '../../Autofill';
 import * as stylesImport from './BaseExtendedPicker.scss';
 import { BaseFloatingPicker } from '../../FloatingPicker';
@@ -201,7 +201,7 @@ export class BaseExtendedPicker<T, P extends IBaseExtendedPickerProps<T>>
       if (
         this.input.current &&
         !this.input.current.isValueSelected &&
-        this.input.current.inputElement === ev.currentTarget.ownerDocument.activeElement &&
+        this.input.current.inputElement === getActiveElement() &&
         (this.input.current as Autofill).cursorLocation === 0
       ) {
         if (this.floatingPicker.current) {

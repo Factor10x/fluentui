@@ -31,7 +31,13 @@ import { ResponsiveMode, useResponsiveMode } from '../../ResponsiveMode';
 import { SelectableOptionMenuItemType, getAllSelectedOptions } from '../../SelectableOption';
 // import and use V7 Checkbox to ensure no breaking changes.
 import { Checkbox } from '../../Checkbox';
-import { getNextElement, getPreviousElement, getPropsWithDefaults } from '@fluentui/utilities';
+import {
+  getActiveElement,
+  getNextElement,
+  getPreviousElement,
+  getPropsWithDefaults,
+  getRootNode,
+} from '@fluentui/utilities';
 import { useMergedRefs, usePrevious } from '@fluentui/react-hooks';
 import type { IStyleFunctionOrObject } from '../../Utilities';
 import type {
@@ -937,7 +943,7 @@ class DropdownInternal extends React.Component<IDropdownInternalProps, IDropdown
     const targetElement = ev.currentTarget as HTMLElement;
     this._gotMouseMove = true;
 
-    if (!this._isScrollIdle || document.activeElement === targetElement) {
+    if (!this._isScrollIdle || getActiveElement(getRootNode(targetElement)) === targetElement) {
       return;
     }
 

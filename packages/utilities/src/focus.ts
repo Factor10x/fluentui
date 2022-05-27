@@ -2,7 +2,8 @@ import { elementContainsAttribute } from './dom/elementContainsAttribute';
 import { elementContains } from './dom/elementContains';
 import { getParent } from './dom/getParent';
 import { getWindow } from './dom/getWindow';
-import { getDocument } from './dom/getDocument';
+import { getActiveElement } from './dom/getActiveElement';
+import { getRootNode } from './dom/getRootNode';
 
 const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';
 const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
@@ -439,8 +440,8 @@ export function isElementFocusSubZone(element?: HTMLElement): boolean {
  * @public
  */
 export function doesElementContainFocus(element: HTMLElement): boolean {
-  let document = getDocument(element);
-  let currentActiveElement: HTMLElement | undefined = document && (document.activeElement as HTMLElement);
+  let currentActiveElement: HTMLElement | undefined =
+    (getActiveElement(getRootNode(element)) as HTMLElement) ?? undefined;
   if (currentActiveElement && elementContains(element, currentActiveElement)) {
     return true;
   }
