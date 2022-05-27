@@ -9,6 +9,7 @@ import {
   focusAsync,
   modalize,
   on,
+  getActiveElement,
 } from '../../Utilities';
 import { useId, useConst, useMergedRefs, useUnmount } from '@fluentui/react-hooks';
 import { useDocument } from '../../WindowProvider';
@@ -181,7 +182,7 @@ export const FocusTrapZone: React.FunctionComponent<IFocusTrapZoneProps> & {
         // even when it's not. Using document.activeElement is another way
         // for us to be able to get what the relatedTarget without relying
         // on the event
-        relatedTarget = doc!.activeElement as Element;
+        relatedTarget = getActiveElement(doc!) as Element;
       }
       if (!elementContains(root.current, relatedTarget as HTMLElement)) {
         internalState.hasFocus = false;
@@ -217,7 +218,7 @@ export const FocusTrapZone: React.FunctionComponent<IFocusTrapZoneProps> & {
     });
 
     if (doc) {
-      const activeElement = doc.activeElement as HTMLElement;
+      const activeElement = getActiveElement() as HTMLElement;
       if (
         !ignoreExternalFocusing &&
         internalState.previouslyFocusedElementOutsideTrapZone &&
@@ -294,7 +295,7 @@ export const FocusTrapZone: React.FunctionComponent<IFocusTrapZoneProps> & {
     updateEventHandlers();
     return () => {
       // don't handle return focus unless forceFocusInsideTrap is true or focus is still within FocusTrapZone
-      if (!disabled || forceFocusInsideTrap || !elementContains(parentRoot, doc?.activeElement as HTMLElement)) {
+      if (!disabled || forceFocusInsideTrap || !elementContains(parentRoot, getActiveElement(doc) as HTMLElement)) {
         returnFocusToInitiator();
       }
     };
@@ -316,7 +317,7 @@ export const FocusTrapZone: React.FunctionComponent<IFocusTrapZoneProps> & {
 
       internalState.previouslyFocusedElementOutsideTrapZone = elementToFocusOnDismiss
         ? elementToFocusOnDismiss
-        : (doc!.activeElement as HTMLElement);
+        : (getActiveElement(doc) as HTMLElement);
       if (!disableFirstFocus && !elementContains(root.current, internalState.previouslyFocusedElementOutsideTrapZone)) {
         focus();
       }

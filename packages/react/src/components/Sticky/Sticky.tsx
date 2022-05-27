@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { initializeComponentRef } from '../../Utilities';
+import { getActiveElement, initializeComponentRef } from '../../Utilities';
 import { hiddenContentStyle } from '../../Styling';
 import { ScrollablePaneContext } from '../ScrollablePane/ScrollablePane.types';
 import { StickyPositionType } from './Sticky.types';
@@ -269,12 +269,13 @@ export class Sticky extends React.Component<IStickyProps, IStickyState> {
           this._getStickyDistanceFromTopForFooter(container, footerStickyContainer);
       }
 
+      const activeElement = getActiveElement();
       if (
-        document.activeElement &&
-        this.nonStickyContent.contains(document.activeElement) &&
+        activeElement &&
+        this.nonStickyContent.contains(activeElement) &&
         (this.state.isStickyTop !== isStickyTop || this.state.isStickyBottom !== isStickyBottom)
       ) {
-        this._activeElement = document.activeElement as HTMLElement;
+        this._activeElement = activeElement as HTMLElement;
       } else {
         this._activeElement = undefined;
       }

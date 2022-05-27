@@ -1,6 +1,14 @@
 import * as React from 'react';
 import { useMergedRefs } from '@fluentui/react-hooks';
-import { classNamesFunction, divProperties, elementContains, getNativeProps, focusFirstChild } from '../../Utilities';
+import {
+  classNamesFunction,
+  divProperties,
+  elementContains,
+  getNativeProps,
+  focusFirstChild,
+  getActiveElement,
+  getRootNode,
+} from '../../Utilities';
 import { OverflowButton } from './OverflowButton';
 import type { IProcessedStyleSet } from '../../Styling';
 import type { IOverflowSetProps, IOverflowSetStyles, IOverflowSetStyleProps, IOverflowSet } from './OverflowSet.types';
@@ -26,7 +34,7 @@ const useComponentRef = (props: IOverflowSetProps, divContainer: React.RefObject
         }
         if (divContainer.current && elementContains(divContainer.current, childElement)) {
           childElement.focus();
-          focusSucceeded = document.activeElement === childElement;
+          focusSucceeded = getActiveElement(getRootNode(childElement)) === childElement;
         }
         return focusSucceeded;
       },

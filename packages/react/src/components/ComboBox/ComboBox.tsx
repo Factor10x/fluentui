@@ -19,6 +19,9 @@ import {
   Async,
   EventGroup,
   getPropsWithDefaults,
+  getRootNode,
+  getChildren,
+  getActiveElement,
 } from '../../Utilities';
 import { Callout, DirectionalHint } from '../../Callout';
 import { Checkbox } from '../../Checkbox';
@@ -40,7 +43,6 @@ import type {
 } from './ComboBox.types';
 import type { IButtonStyles } from '../../Button';
 import type { ICalloutProps } from '../../Callout';
-import { getChildren } from '@fluentui/utilities';
 
 export interface IComboBoxState {
   /** The open state */
@@ -367,7 +369,7 @@ class ComboBoxInternal extends React.Component<IComboBoxInternalProps, IComboBox
           !isOpen &&
           this._focusInputAfterClose &&
           this._autofill.current &&
-          document.activeElement !== this._autofill.current.inputElement))
+          getActiveElement(getRootNode(this._autofill.current.inputElement)) !== this._autofill.current.inputElement))
     ) {
       this.focus(undefined /*shouldOpenOnFocus*/, true /*useFocusAsync*/);
     }
@@ -1145,7 +1147,7 @@ class ComboBoxInternal extends React.Component<IComboBoxInternalProps, IComboBox
       // even when it's not. Using document.activeElement is another way
       // for us to be able to get what the relatedTarget without relying
       // on the event
-      relatedTarget = document.activeElement as Element;
+      relatedTarget = getActiveElement() as Element;
     }
 
     if (relatedTarget) {

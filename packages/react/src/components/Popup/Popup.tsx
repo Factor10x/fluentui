@@ -8,6 +8,7 @@ import {
   getPropsWithDefaults,
   getWindow,
   modalize,
+  getActiveElement,
 } from '../../Utilities';
 import { useMergedRefs, useAsync, useOnEvent } from '@fluentui/react-hooks';
 import { useWindow } from '@fluentui/react-window-provider';
@@ -72,7 +73,7 @@ function useRestoreFocus(props: IPopupProps, root: React.RefObject<HTMLDivElemen
   const containsFocus = React.useRef(false);
 
   React.useEffect(() => {
-    originalFocusedElement.current = getDocument()!.activeElement as HTMLElement;
+    originalFocusedElement.current = getActiveElement() as HTMLElement;
 
     if (doesElementContainFocus(root.current!)) {
       containsFocus.current = true;
