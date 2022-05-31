@@ -1,8 +1,35 @@
 # Change Log - @fluentui/react
 
-This log was last generated on Tue, 24 May 2022 07:47:25 GMT and should not be manually modified.
+This log was last generated on Mon, 30 May 2022 07:44:12 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## [8.71.1](https://github.com/microsoft/fluentui/tree/@fluentui/react_v8.71.1)
+
+Mon, 30 May 2022 07:44:12 GMT 
+[Compare changes](https://github.com/microsoft/fluentui/compare/@fluentui/react_v8.71.0..@fluentui/react_v8.71.1)
+
+### Patches
+
+- Fixed bug where className changes in List props does not cause a rerender ([PR #23126](https://github.com/microsoft/fluentui/pull/23126) by odhanson@microsoft.com)
+
+## [8.71.0](https://github.com/microsoft/fluentui/tree/@fluentui/react_v8.71.0)
+
+Fri, 27 May 2022 07:39:11 GMT 
+[Compare changes](https://github.com/microsoft/fluentui/compare/@fluentui/react_v8.70.0..@fluentui/react_v8.71.0)
+
+### Minor changes
+
+- update splitbutton styles so inner buttons stretch to fill root button container ([PR #23051](https://github.com/microsoft/fluentui/pull/23051) by sarah.higley@microsoft.com)
+
+## [8.70.0](https://github.com/microsoft/fluentui/tree/@fluentui/react_v8.70.0)
+
+Wed, 25 May 2022 07:44:28 GMT 
+[Compare changes](https://github.com/microsoft/fluentui/compare/@fluentui/react_v8.69.0..@fluentui/react_v8.70.0)
+
+### Minor changes
+
+- Fixing the PlainCard styles export to have the correct path. This never worked before, so I consider it a minor change. ([PR #23201](https://github.com/microsoft/fluentui/pull/23201) by dzearing@microsoft.com)
 
 ## [8.69.0](https://github.com/microsoft/fluentui/tree/@fluentui/react_v8.69.0)
 

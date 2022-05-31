@@ -1,8 +1,36 @@
 # Change Log - @fluentui/react-charting
 
-This log was last generated on Tue, 24 May 2022 07:47:25 GMT and should not be manually modified.
+This log was last generated on Mon, 30 May 2022 07:44:13 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## [5.9.39](https://github.com/microsoft/fluentui/tree/@fluentui/react-charting_v5.9.39)
+
+Mon, 30 May 2022 07:44:13 GMT 
+[Compare changes](https://github.com/microsoft/fluentui/compare/@fluentui/react-charting_v5.9.38..@fluentui/react-charting_v5.9.39)
+
+### Patches
+
+- Bump @fluentui/react to v8.71.1 ([PR #23126](https://github.com/microsoft/fluentui/pull/23126) by beachball)
+
+## [5.9.38](https://github.com/microsoft/fluentui/tree/@fluentui/react-charting_v5.9.38)
+
+Fri, 27 May 2022 07:39:11 GMT 
+[Compare changes](https://github.com/microsoft/fluentui/compare/@fluentui/react-charting_v5.9.37..@fluentui/react-charting_v5.9.38)
+
+### Patches
+
+- Bump @fluentui/react to v8.71.0 ([PR #23127](https://github.com/microsoft/fluentui/pull/23127) by beachball)
+
+## [5.9.37](https://github.com/microsoft/fluentui/tree/@fluentui/react-charting_v5.9.37)
+
+Wed, 25 May 2022 07:44:28 GMT 
+[Compare changes](https://github.com/microsoft/fluentui/compare/@fluentui/react-charting_v5.9.36..@fluentui/react-charting_v5.9.37)
+
+### Patches
+
+- Bug 5915906 vertical stacked chart colors of legends is not displayed in high contrast ([PR #22963](https://github.com/microsoft/fluentui/pull/22963) by ankityadav@microsoft.com)
+- Bump @fluentui/react to v8.70.0 ([PR #23207](https://github.com/microsoft/fluentui/pull/23207) by beachball)
 
 ## [5.9.36](https://github.com/microsoft/fluentui/tree/@fluentui/react-charting_v5.9.36)
 
