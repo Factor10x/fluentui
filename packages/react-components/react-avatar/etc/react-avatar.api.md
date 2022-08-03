@@ -4,7 +4,8 @@
 
 ```ts
 
-import { Button } from '@fluentui/react-button';
+/// <reference types="react" />
+
 import type { ComponentProps } from '@fluentui/react-utilities';
 import type { ComponentState } from '@fluentui/react-utilities';
 import type { ForwardRefComponent } from '@fluentui/react-utilities';
@@ -34,35 +35,64 @@ export const AvatarGroupItem: ForwardRefComponent<AvatarGroupItemProps>;
 export const avatarGroupItemClassNames: SlotClassNames<AvatarGroupItemSlots>;
 
 // @public
-export type AvatarGroupItemProps = ComponentProps<AvatarGroupItemSlots> & {};
+export type AvatarGroupItemProps = Omit<ComponentProps<Partial<AvatarGroupItemSlots>, 'avatar'>, 'size' | 'shape'>;
 
 // @public (undocumented)
 export type AvatarGroupItemSlots = {
+    root: NonNullable<Slot<'div'>>;
+    avatar: NonNullable<Slot<typeof Avatar>>;
+    overflowLabel: NonNullable<Slot<'span'>>;
+};
+
+// @public
+export type AvatarGroupItemState = ComponentState<AvatarGroupItemSlots> & {
+    isOverflowItem?: boolean;
+    nonOverflowAvatarsCount: number;
+    layout: AvatarGroupProps['layout'];
+    size: AvatarSizes;
+};
+
+// @public
+export const AvatarGroupOverflow: ForwardRefComponent<AvatarGroupOverflowProps>;
+
+// @public (undocumented)
+export const avatarGroupOverflowClassName = "fui-AvatarGroupOverflow";
+
+// @public (undocumented)
+export const avatarGroupOverflowClassNames: SlotClassNames<AvatarGroupOverflowSlots>;
+
+// @public
+export type AvatarGroupOverflowProps = ComponentProps<AvatarGroupOverflowSlots> & {};
+
+// @public (undocumented)
+export type AvatarGroupOverflowSlots = {
     root: Slot<'div'>;
 };
 
 // @public
-export type AvatarGroupItemState = ComponentState<AvatarGroupItemSlots>;
+export type AvatarGroupOverflowState = ComponentState<AvatarGroupOverflowSlots>;
 
 // @public
 export type AvatarGroupProps = ComponentProps<AvatarGroupSlots> & {
     layout?: 'spread' | 'stack' | 'pie';
     maxAvatars?: number;
-    overflowIndicator?: 'number-overflowed' | 'icon';
+    overflowIndicator?: 'count' | 'icon';
     size?: AvatarSizes;
-    strings?: AvatarGroupStrings;
 };
 
 // @public (undocumented)
 export type AvatarGroupSlots = {
-    root: Slot<'div'>;
-    popoverTrigger?: Slot<typeof Button>;
-    popoverSurface?: Slot<typeof PopoverSurface>;
+    root: NonNullable<Slot<'div'>>;
+    overflowButton?: NonNullable<Slot<'button'>>;
+    overflowContent?: NonNullable<Slot<'div'>>;
+    overflowSurface?: NonNullable<Slot<typeof PopoverSurface>>;
 };
 
 // @public
-export type AvatarGroupState = ComponentState<AvatarGroupSlots> & {
+export type AvatarGroupState = ComponentState<AvatarGroupSlots> & Required<Pick<AvatarGroupProps, 'layout' | 'size' | 'overflowIndicator'>> & {
+    hasOverflow: boolean;
     tooltipContent: TooltipProps['content'];
+    nonOverflowAvatarsCount: number;
 };
 
 // @public
@@ -96,7 +126,9 @@ export type AvatarState = ComponentState<AvatarSlots> & Required<Pick<AvatarProp
     color: NonNullable<Exclude<AvatarProps['color'], 'colorful'>>;
 };
 
-// @public
+// Warning: (ae-internal-missing-underscore) The name "getInitials" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export function getInitials(displayName: string | undefined | null, isRtl: boolean, options?: {
     allowPhoneInitials?: boolean;
     firstInitialOnly?: boolean;
@@ -111,6 +143,9 @@ export const renderAvatarGroup_unstable: (state: AvatarGroupState) => JSX.Elemen
 // @public
 export const renderAvatarGroupItem_unstable: (state: AvatarGroupItemState) => JSX.Element;
 
+// @public
+export const renderAvatarGroupOverflow_unstable: (state: AvatarGroupOverflowState) => JSX.Element;
+
 // @public (undocumented)
 export const useAvatar_unstable: (props: AvatarProps, ref: React_2.Ref<HTMLElement>) => AvatarState;
 
@@ -122,6 +157,12 @@ export const useAvatarGroupItem_unstable: (props: AvatarGroupItemProps, ref: Rea
 
 // @public
 export const useAvatarGroupItemStyles_unstable: (state: AvatarGroupItemState) => AvatarGroupItemState;
+
+// @public
+export const useAvatarGroupOverflow_unstable: (props: AvatarGroupOverflowProps, ref: React_2.Ref<HTMLElement>) => AvatarGroupOverflowState;
+
+// @public
+export const useAvatarGroupOverflowStyles_unstable: (state: AvatarGroupOverflowState) => AvatarGroupOverflowState;
 
 // @public
 export const useAvatarGroupStyles_unstable: (state: AvatarGroupState) => AvatarGroupState;
