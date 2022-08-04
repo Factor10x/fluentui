@@ -8,7 +8,7 @@ const run = (cmd, args, opts = {}) => new Promise((resolve, reject) => {
   spawned.on('error', reject)
 })
 
-const shadowVersion = "2"
+const shadowVersion = "3"
 
 const pkgsToPublish = [
   'merge-styles',
